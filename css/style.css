@@ -21,26 +21,33 @@ body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    /* Use 100dvh for better mobile browser support (address bar handling) */
+    min-height: 100dvh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     background-image:
         radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
         linear-gradient(180deg, #182e50 0%, #1e3a65 100%);
+    overflow-x: hidden;
 }
 
 .app-container {
     width: 100%;
     max-width: 600px;
     padding: 2rem;
+    /* Margin auto in a flex column container centers it vertically and horizontally
+       while being safe for overflow (scrollable) */
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    box-sizing: border-box;
 }
 
 header {
     margin-bottom: 2rem;
+    width: 100%;
 }
 
 header h1 {
@@ -49,6 +56,7 @@ header h1 {
     font-size: 2.5rem;
     margin: 0 0 0.5rem 0;
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    line-height: 1.2;
 }
 
 header p {
@@ -72,12 +80,14 @@ input[type="text"] {
     /* Pill shape */
     font-family: var(--font-body);
     font-size: 1.1rem;
+    /* approx 17.6px, good for preventing iOS zoom */
     text-align: center;
     background-color: var(--input-bg);
     color: #333;
     box-shadow: var(--shadow-soft);
     transition: transform 0.2s, box-shadow 0.2s;
     outline: none;
+    box-sizing: border-box;
 }
 
 input[type="text"]:focus {
@@ -109,12 +119,21 @@ input[type="text"]::placeholder {
     line-height: 0;
     /* Removing gap below canvas */
     max-width: 100%;
+    width: auto;
+    /* Let width be determined by content/max-width */
+    display: inline-flex;
+    /* Use inline-flex to shrink wrap the canvas */
+    align-items: center;
+    justify-content: center;
 }
 
 canvas {
     display: block;
     max-width: 100%;
     height: auto;
+    object-fit: contain;
+    /* Optional: Limit height on very tall screens to ensure button is visible without scrolling too much */
+    max-height: 70vh;
 }
 
 .action-section {
@@ -137,7 +156,12 @@ button#download-btn {
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
+    width: 100%;
+    /* Full width on very small screens, max-width applied via other means if needed */
+    max-width: 300px;
+    /* Limit button width */
 }
 
 button#download-btn:hover {
@@ -155,15 +179,122 @@ footer {
     color: var(--text-dim);
     font-size: 0.85rem;
     opacity: 0.7;
+    margin-bottom: 1rem;
+    /* Add bottom margin for scrolling space */
 }
 
 /* Responsive Handling */
-@media (max-width: 480px) {
-    header h1 {
-        font-size: 1.8rem;
+
+/* Tablet and smaller desktops */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 2rem 1.5rem;
     }
 
+    header h1 {
+        font-size: 2.2rem;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 480px) {
     .app-container {
         padding: 1.5rem 1rem;
+        width: 100%;
+    }
+
+    header h1 {
+        font-size: 1.7rem;
+        /* Smaller heading */
+        margin-bottom: 0.25rem;
+    }
+
+    header p {
+        font-size: 0.9rem;
+    }
+
+    .input-section {
+        margin-bottom: 1.5rem;
+    }
+
+    input[type="text"] {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        /* Minimum readable size */
+    }
+
+    .card-display {
+        margin-bottom: 1.5rem;
+    }
+
+    button#download-btn {
+        padding: 0.9rem 1.5rem;
+        font-size: 1rem;
+        width: 100%;
+        /* Make button full width for easier tapping */
+    }
+
+    footer {
+        margin-top: 2rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Small Mobile Devices (e.g. iPhone SE, outdated Androids) */
+@media (max-width: 360px) {
+    .app-container {
+        padding: 1rem 0.75rem;
+    }
+
+    header h1 {
+        font-size: 1.4rem;
+    }
+
+    input[type="text"] {
+        padding: 0.7rem 1rem;
+    }
+
+    button#download-btn {
+        padding: 0.8rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* Landscape Mode Adjustments for Mobile */
+@media (max-width: 900px) and (orientation: landscape) and (max-height: 500px) {
+    .app-container {
+        padding: 1rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    header,
+    footer {
+        width: 100%;
+        margin: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    /* Create side-by-side layout for input/preview if space allows */
+    .input-section {
+        width: 45%;
+        margin-bottom: 0;
+    }
+
+    .card-display {
+        width: 45%;
+        margin-bottom: 0;
+    }
+
+    .action-section {
+        width: 100%;
+        margin-top: 1rem;
     }
 }
