@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillText('Ramadhan', w / 2, h * 0.3);
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 60px "Amiri", serif';
-        ctx.fillText('1447 H', w / 2, h * 0.3 + 80);
+        ctx.fillText('1448 H', w / 2, h * 0.3 + 80);
 
         // Footer Text
         ctx.fillStyle = '#888';
