@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         canvasWidth: 1080,
         canvasHeight: 1920, // Vertical Story/Status format
         fontFamily: "'Outfit', 'Madani', 'Tajawal', 'Cairo', sans-serif",
-        baseFontSize: 80,
+        baseFontSize: 50,
         textColor: '#dbc26fec', // Gold color to match design
         textYPercent: 0.82,
         textShadow: false
